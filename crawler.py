@@ -2,6 +2,8 @@
 import requests
 from bs4 import BeautifulSoup
 from urllib.parse import urldefrag, urljoin
+from whoosh.index import create_in
+from whoosh.fields import *
 
 # ------ crawler skeleton ------------------------------------------
 
@@ -35,4 +37,10 @@ while agenda:
             print("Found ", target)
 
 # ------ index --------------------------------------------------
+
+schema = Schema(url=ID(stored=True), title=TEXT(stored=True), content=TEXT)
+
+# Create an index in the directory indexdr (the directory must already exist!)
+ix = create_in("indexdir", schema)
+writer = ix.writer()
 
